@@ -8,15 +8,20 @@ export class Session{
 	constructor(){}
 
 	create(user){
-    this.storage.set('user', user );
+		localStorage.setItem("currentUser", JSON.stringify(user))
+    //this.storage.set('user', user );
 	}
 
 	remove(){
-		this.storage.remove('user');
+		localStorage.removeItem("currentUser")
+    
+		//this.storage.remove('user');
 	}
 
 	currentUser(){
-   	return this.storage.get('user')
+   	return JSON.parse(localStorage.getItem("currentUser"))
+     
+   	//this.storage.get('user')
 	}
 
 }

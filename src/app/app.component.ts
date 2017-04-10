@@ -26,18 +26,16 @@ export class MyApp {
       splashScreen.hide();
     });
     
-   this.session.currentUser().then((val) => {
+    if(this.session.currentUser()){
          
-      if(val){
         this.rootPage = HomePage;
         
         console.log("true")
-      }else{
+    }else{
         this.rootPage = LoginPage;
         console.log("false")
 
-      }
-    })
+    }
   }
   
     
