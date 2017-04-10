@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+import { NavController, NavParams, LoadingController, Loading, AlertController } from 'ionic-angular';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 
 import { HomePage } from '../home/home';
+import { RegisterPage } from '../register/register';
 
 import { User } from '../../models/user';
 import { Session } from '../../config/session';
@@ -22,73 +23,83 @@ import { LoginService } from '../../providers/login-service'
 })
 export class LoginPage {
 
+	loading: Loading;
 	form: FormGroup;
-	user = new User;
+	user = {email: '', password: ''};
 	session = new Session;
 
-	  constructor(public navCtrl: NavController, public navParams: NavParams, private formBuilder: FormBuilder,private loginService: LoginService) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public loadingCtrl: LoadingController, private alertCtrl: AlertController, private formBuilder: FormBuilder,private loginService: LoginService) {
 
-	  	this.initForm()
-	  }
+  	this.initForm()
+  }
 
-	  ionViewDidLoad() {
-	    console.log('ionViewDidLoad LoginPage');
-	  }
 
-	  login(){
-	  	
-	  	this.user._id = 1
-	  	this.user.name = "junior"
-	  	this.user.email = this.form.value.email
-	  	this.user.password = this.form.value.password
-	  	this.user.token = "1234"
-	  	this.user.status = "active"
-		
+  login(){
+  	this.showLoading()
+  	this.user = this.form.value
 		this.loginService.signIn(this.user.email, this.user.password).subscribe(user => {
 			console.log(user)
-	  		console.log("criando login")
-	  		this.session.create(user)
-	  		this.navCtrl.setRoot(HomePage);
+  		console.log("criando login")
+  		this.session.create(user)
+  		this.loading.dismiss()
+  		this.navCtrl.setRoot(HomePage);
 		}, erro =>{
-	  		console.log("erro login")
-			console.log(erro)
+	  	console.log(erro)
+  		this.loading.dismiss()
+			this.showAlertError('Email ou senha invalidos')
 		})
 	  	//console.log(this.session)
 	  	//console.log(this.user)
-	  }
+  }
 
-	  currentUser(){
+  currentUser(){
 
-	  	this.session.currentUser().then((val) => {
-         this.user = val
-       	})
-	  }
+  	this.session.currentUser().then((val) => {
+       this.user = val
+     	})
+  }
 
-	  remove(){
-	  	this.session.remove()
-	  }
+  register(){
+  	this.navCtrl.push(RegisterPage)
+  }
 
-	  isAuthenticated(){
-	  	let user
-	  	this.session.currentUser().then((val) => {
-         user = val
-       })
+  isAuthenticated(){
+  	let user
+  	this.session.currentUser().then((val) => {
+       user = val
+     })
 
-	  	return user
+  	return user
 
-	  }
+  }
 
-    private initForm() {
-	    this.form = this.formBuilder.group({
-	      password: ['', [
-	        Validators.required,
-	        Validators.minLength(3)
-	      ]],
-	      email: ['', [
-	        Validators.required
-	        //Validators.pattern("[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?")
-	      ]]
-	});
+  showAlertError(message) {
+  let alert = this.alertCtrl.create({
+      title: 'Falha no login',
+      subTitle: message,
+      buttons: ['OK']
+    });
+    alert.present();
+  }
+
+  showLoading() {
+    this.loading = this.loadingCtrl.create({
+      content: "Efetuando login"
+    });
+    this.loading.present();
+  }
+
+  private initForm() {
+    this.form = this.formBuilder.group({
+      password: ['', [
+        Validators.required,
+        Validators.minLength(3)
+      ]],
+      email: ['', [
+        Validators.required,
+        Validators.pattern("[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?")
+      ]]
+		});
   }
 
 }

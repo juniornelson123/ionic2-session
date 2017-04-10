@@ -5,6 +5,7 @@ import { IonicStorageModule } from '@ionic/storage';
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
 import { LoginPage } from '../pages/login/login';
+import { RegisterPage } from '../pages/register/register';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { Geolocation } from '@ionic-native/geolocation';
@@ -17,7 +18,8 @@ import { LoginService } from '../providers/login-service';
   declarations: [
     MyApp,
     HomePage,
-    LoginPage
+    LoginPage,
+    RegisterPage
   ],
   imports: [
     IonicModule.forRoot(MyApp),
@@ -30,7 +32,8 @@ import { LoginService } from '../providers/login-service';
   entryComponents: [
     MyApp,
     HomePage,
-    LoginPage
+    LoginPage,
+    RegisterPage
   ],
   providers: [
     StatusBar,

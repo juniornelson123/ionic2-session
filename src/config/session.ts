@@ -3,17 +3,12 @@ import { Storage } from '@ionic/storage';
 
 export class Session{
 	user = new User;
-	storage = new  Storage
+	storage = new Storage(null)
 
 	constructor(){}
 
 	create(user){
-		//this.storage.ready().then(() => {
-			
-       	this.storage.set('user', user );
-			//console.log(this.storage)
-
-     	//});
+    this.storage.set('user', user );
 	}
 
 	remove(){
@@ -21,9 +16,7 @@ export class Session{
 	}
 
 	currentUser(){
-
-         console.log("Verificar current user")
-       return this.storage.get('user')
+   	return this.storage.get('user')
 	}
 
 }

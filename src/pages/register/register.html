@@ -1,5 +1,5 @@
 <!--
-  Generated template for the Login page.
+  Generated template for the Register page.
 
   See http://ionicframework.com/docs/v2/components/#navigation for more info on
   Ionic pages and navigation.
@@ -7,20 +7,20 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>Login</ion-title>
-    <ion-buttons end>
-      <button   (click)="register()" ion-button icon-only color="royal">
-        <ion-icon name="add"></ion-icon>
-      </button>
-    </ion-buttons>
+    <ion-title>Cadastrar</ion-title>
   </ion-navbar>
 
 </ion-header>
 
 
-<ion-content>
-	<form (ngSubmit)="login()" [formGroup]="form" #registerForm="ngForm">
+<ion-content padding>
+<form (ngSubmit)="register()" [formGroup]="form" #registerForm="ngForm">
 		<ion-list>
+
+		  <ion-item>
+		    <ion-label>Name</ion-label>
+		    <ion-input type="text" (ngModel)="user.name" formControlName="name"></ion-input>
+		  </ion-item>
 
 		  <ion-item>
 		    <ion-label>Email</ion-label>
