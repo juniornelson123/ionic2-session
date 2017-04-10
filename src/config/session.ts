@@ -22,8 +22,7 @@ export class Session{
 
 	currentUser(){
 
-         console.log("Verificar current user")
-       return this.storage.get('user')
+        return this.storage.get('user')
 	}
 
 }

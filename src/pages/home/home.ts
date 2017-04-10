@@ -2,6 +2,8 @@ import { Component, ViewChild, ElementRef } from '@angular/core';
 import { Geolocation, Geoposition } from '@ionic-native/geolocation';
 import { NavController } from 'ionic-angular';
 import { ParkingService } from '../../providers/parking-service' 
+import { Headers } from '@angular/http';
+
 
 
 import { LoginPage } from '../login/login';
@@ -18,12 +20,19 @@ export class HomePage {
 
   @ViewChild('map') mapElement: ElementRef;
   map: any;
-  parking: Parking[];
+  parkings: Parking[];
   session = new Session
  
   constructor(public navCtrl: NavController, public geolocation: Geolocation, public parkingService: ParkingService) {
-   parkingService.all().subscribe(parking => {
-      console.log(parking)
+    this.session.currentUser().then((data) => {
+      let headers =  new Headers({"token": data.token})
+      parkingService.all(headers).subscribe(parkings => {
+        console.log(parkings)
+        this.parkings = parkings
+      }, erro => {
+        console.log("erro parkings")
+
+      })
     })
   }
  

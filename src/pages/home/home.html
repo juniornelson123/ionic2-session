@@ -3,21 +3,23 @@
     <ion-title>
       Home
     </ion-title>
-    <button   (click)="remove()" ion-button icon-only color="royal">
-        <ion-icon name="exit"></ion-icon>
-      </button>
+    <ion-buttons end>
+    	<button (click)="remove()" ion-button icon-only color="royal">
+        	<ion-icon name="exit"></ion-icon>
+      	</button>
+    </ion-buttons>  	
   </ion-navbar>
 </ion-header>
 
 <ion-content>
  <div #map id="map"></div>
  <!--button ion-button (click)="geolocate()">Get Location</button-->
-	<ion-card>
+	<ion-card *ngFor="let parking of parkings">
 	  <ion-card-header>
-	    Header
+	    {{ parking.name }}
 	  </ion-card-header>
 	  <ion-card-content>
-	    The British use the term "header", but the American term "head-shot" the English simply refuse to adopt.
+	    {{ parking.description }}
 	  </ion-card-content>
 	</ion-card>
 </ion-content>
