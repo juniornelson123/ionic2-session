@@ -1,7 +1,7 @@
 <ion-header>
   <ion-navbar>
     <ion-title>
-      Home
+      EstacionaFacil
     </ion-title>
     <ion-buttons end>
     	<button (click)="remove()" ion-button icon-only color="royal">
@@ -14,12 +14,12 @@
 <ion-content>
  <div #map id="map"></div>
  <!--button ion-button (click)="geolocate()">Get Location</button-->
-	<ion-card *ngFor="let parking of parkings">
-	  <ion-card-header>
-	    {{ parking.name }}
-	  </ion-card-header>
-	  <ion-card-content>
-	    {{ parking.description }}
-	  </ion-card-content>
-	</ion-card>
+  <ion-card *ngFor="let parking of parkings" (click)="details(parking)">
+    <ion-card-header>
+      {{ parking.name }}
+    </ion-card-header>
+    <ion-card-content>
+      {{ parking.description }}
+    </ion-card-content>
+  </ion-card>
 </ion-content>

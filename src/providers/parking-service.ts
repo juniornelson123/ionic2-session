@@ -18,13 +18,22 @@ export class ParkingService implements OnInit {
   session = new Session();
   
   constructor(public http: Http) {
+
   }
 
   ngOnInit(){
     
   }
 
-  all(header: Headers){
-    return this.http.get(this.baseUrl+"/parkings", { headers: header }).map(res => res.json());
+  all(){
+    this.user = this.session.currentUser()
+    let headers =  new Headers({"token": this.user.token})
+    return this.http.get(this.baseUrl+"/parkings", { headers: headers }).map(res => res.json());
+  }
+
+  get(id){
+    this.user = this.session.currentUser()
+    let headers =  new Headers({"token": this.user.token})
+    return this.http.get(this.baseUrl+"/parking/"+id, { headers: headers }).map(res => res.json());
   }
 }

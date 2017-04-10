@@ -1,40 +1,37 @@
 import { Component, ViewChild, ElementRef } from '@angular/core';
 import { Geolocation, Geoposition } from '@ionic-native/geolocation';
-import { ParkingPage } from '../parking/parking'
-import { NavController } from 'ionic-angular';
+import { NavController, NavParams } from 'ionic-angular';
 import { ParkingService } from '../../providers/parking-service' 
-import { Headers } from '@angular/http';
 
-
-
-import { LoginPage } from '../login/login';
-
-import { Session } from '../../config/session';
-import { Parking } from '../../models/parking'
 declare var google;
- 
+
+/*
+  Generated class for the Parking page.
+
+  See http://ionicframework.com/docs/v2/components/#navigation for more info on
+  Ionic pages and navigation.
+*/
 @Component({
-  selector: 'page-home',
-  templateUrl: 'home.html'
+  selector: 'page-parking',
+  templateUrl: 'parking.html'
 })
-export class HomePage {
 
-  @ViewChild('map') mapElement: ElementRef;
+
+export class ParkingPage {
+	@ViewChild('map_detail') mapElement: ElementRef;
   map: any;
-  parkings: Parking[];
-  session = new Session
-  constructor(public navCtrl: NavController, public geolocation: Geolocation, public parkingService: ParkingService) {
-      
-      parkingService.all().subscribe(parkings => {
-        console.log(parkings)
-        this.parkings = parkings
-      }, erro => {
-        console.log("erro parkings")
+	parking: any;
 
-      })
+  constructor(public navCtrl: NavController, public geolocation: Geolocation, public navParams: NavParams, private parkingService: ParkingService) {
+  	this.parking = navParams.get("parking")
+  	this.parkingService.get(this.parking._id).subscribe(parking => {
+  		console.log(parking)
+  		this.parking = parking
+  	})
   }
- 
+
   loadMap(){
+  	console.log("carregando mapa;;;")
  	  let options = {
       enableHighAccuracy: true
     };
@@ -53,7 +50,6 @@ export class HomePage {
 
       console.log(this.map.setCenter(latLng))
       //this.map.center()
-
     }).catch((err) => {
       alert(err);
     })
@@ -77,20 +73,9 @@ export class HomePage {
     
   }
 
-  details(parking){
-    this.navCtrl.push(ParkingPage, {
-       parking: parking
-      
-    })
-  }
-  
-  remove(){
-    this.session.remove()
-    this.navCtrl.setRoot(LoginPage);
-  }
-
   ionViewDidEnter(){
  	
     this.loadMap();
   }
+
 }
